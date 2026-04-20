@@ -33,3 +33,15 @@ export const mockEvents: DevEvent[] = [
     status: "CLOSED", // Evento já passou
   }
 ];
+
+/**
+ * Simula uma busca no Banco de Dados pelo ID do evento.
+ * O Pleno já faz a função ser 'async' para o front-end já nascer 
+ * preparado para o futuro backend real.
+ */
+export async function getEventById(id: string): Promise<DevEvent | undefined> {
+  // Simulamos um delay de 500ms (latência da internet)
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  
+  return mockEvents.find((event) => event.id === id);
+}

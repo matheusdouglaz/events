@@ -2,6 +2,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { DevEvent, EventStatus } from "../../../types/event.types";
 import { Button } from "../../ui/Button"; // Nosso átomo do Dia 1!
 
@@ -11,9 +12,9 @@ interface EventCardProps {
 
 // 1. O SEU OBJETO DE CONFIGURAÇÃO! (Dictionary Pattern)
 // Retiramos isso de dentro do componente para não ser recriado a cada renderização.
-const STATUS_CONFIG: Record<EventStatus, { 
-  buttonText: string; 
-  buttonVariant: "primary" | "secondary" | "outline"; 
+const STATUS_CONFIG: Record<EventStatus, {
+  buttonText: string;
+  buttonVariant: "primary" | "secondary" | "outline";
   badgeText: string;
   badgeColor: string;
   isDisabled: boolean;
@@ -53,11 +54,11 @@ export function EventCard({ event }: EventCardProps) {
   // 3. O componente fica extremamente limpo e "burro", apenas desenhando a tela.
   return (
     <div className={`flex flex-col bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl ${config.opacityClass}`}>
-      
+
       {/* Imagem do Evento */}
       <div className="relative w-full h-48 bg-gray-200">
-        <Image 
-          src={event.imageUrl} 
+        <Image
+          src={event.imageUrl}
           alt={event.title}
           fill
           className="object-cover"
@@ -71,9 +72,11 @@ export function EventCard({ event }: EventCardProps) {
       {/* Corpo do Card */}
       <div className="flex flex-col flex-grow p-6 gap-4">
         <div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2 leading-tight">
-            {event.title}
-          </h3>
+          <Link href={`/eventos/${event.id}`} className="hover:underline decoration-purple-600 underline-offset-4">
+            <h3 className="text-xl font-bold text-gray-900 mb-2 leading-tight">
+              {event.title}
+            </h3>
+          </Link>
           <p className="text-sm text-gray-600 line-clamp-2">
             {event.shortDescription}
           </p>
@@ -91,8 +94,8 @@ export function EventCard({ event }: EventCardProps) {
         </div>
 
         {/* Botão Condicional (Reutilizando nosso Átomo) */}
-        <Button 
-          variant={config.buttonVariant} 
+        <Button
+          variant={config.buttonVariant}
           disabled={config.isDisabled}
           className="w-full mt-2"
           onClick={() => {

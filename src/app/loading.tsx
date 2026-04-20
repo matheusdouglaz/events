@@ -6,7 +6,6 @@ export default function LoadingHome() {
   // O layout estrutural se mantém para a tela não "pular"
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col pt-24">
-      <Header />
 
       <section className="w-full bg-purple-900 py-16 px-4">
          {/* Deixamos a área principal (Hero) vazia ou com um esqueleto próprio para ela */}

@@ -1,0 +1,23 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Definimos o nosso modelo de Evento
+model Event {
+  id               String   @id @default(uuid()) // Gera um ID único automaticamente
+  title            String
+  shortDescription String
+  date             DateTime
+  location         String
+  imageUrl         String
+  status           String   @default("OPEN") // "OPEN", "SOLD_OUT", "CLOSED"
+  registrationUrl  String?  // O '?' indica que o campo é opcional
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
