@@ -1,18 +1,16 @@
-// src/app/error.tsx
-"use client"; // Obrigatório para Error Boundaries no Next.js
+"use client";
 
 import { useEffect } from "react";
-import { Button } from "../components/ui/Button"; // Reutilizando nosso Átomo!
-import { AlertTriangle } from "lucide-react"; // Um ícone para ilustrar o problema
+import { Button } from "../components/ui/Button";
+import { AlertTriangle } from "lucide-react";
 
 interface ErrorProps {
   error: Error & { digest?: string };
-  reset: () => void; // Função nativa do Next.js para tentar renderizar a página novamente
+  reset: () => void;
 }
 
 export default function ErrorBoundary({ error, reset }: ErrorProps) {
   
-  // Pleno Monitorando: Em um projeto real, enviaríamos esse erro para o Sentry ou Datadog aqui.
   useEffect(() => {
     console.error("Erro capturado na Home:", error);
   }, [error]);
@@ -29,7 +27,6 @@ export default function ErrorBoundary({ error, reset }: ErrorProps) {
         Não conseguimos carregar os eventos no momento. Pode ser uma instabilidade na nossa conexão.
       </p>
       
-      {/* O botão mágico que tenta fazer o fetch novamente sem recarregar a página toda */}
       <Button variant="primary" onClick={() => reset()}>
         Tentar Novamente
       </Button>

@@ -1,39 +1,45 @@
-// src/actions/event.actions.ts
-"use server"; // A linha mágica! Isso garante que esse código NUNCA vaze para o navegador.
+"use server";
 
 import { prisma } from "../lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { z } from "zod";
 
-// A função recebe o objeto nativo FormData do HTML
-export async function createEvent(formData: FormData) {
-  // 1. Extraímos os dados do formulário
-  const title = formData.get("title") as string;
-  const shortDescription = formData.get("shortDescription") as string;
-  const dateString = formData.get("date") as string;
-  const location = formData.get("location") as string;
-  const imageUrl = formData.get("imageUrl") as string;
+const eventSchema = z.object({
+  title: z.string().min(5, "O título deve ter pelo menos 5 caracteres."),
+  shortDescription: z.string().min(15, "A descrição deve ter pelo menos 15 caracteres."),
+  date: z.coerce.date().refine((date) => date > new Date(), {
+    message: "A data do evento não pode estar no passado.",
+  }),
+  location: z.string().min(3, "O local deve ter pelo menos 3 caracteres."),
+  imageUrl: z.union([z.string().url("A URL da imagem é inválida."), z.literal("")]).optional(),
+});
 
-  // 2. Validação básica de segurança (O Pleno nunca confia no usuário)
-  if (!title || !shortDescription || !dateString) {
-    throw new Error("Preencha todos os campos obrigatórios");
+export async function createEvent(prevState: any, formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const validatedFields = eventSchema.safeParse(rawData);
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Por favor, corrija os erros abaixo.",
+    };
   }
 
-  // 3. Salvamos no Banco de Dados via Prisma!
-  await prisma.event.create({
-    data: {
-      title,
-      shortDescription,
-      date: new Date(dateString), // Convertendo a string do input de data para DateTime do Prisma
-      location,
-      imageUrl: imageUrl || "https://images.unsplash.com/photo-1540575467063-178a50c2df87", // Imagem padrão se vier vazio
-      status: "OPEN", // Todo evento novo nasce com inscrições abertas
-    },
-  });
+  const { title, shortDescription, date, location, imageUrl } = validatedFields.data;
 
-  // 4. Limpamos o cache da Home Page para o evento novo aparecer instantaneamente
+  try {
+    await prisma.event.create({
+      data: {
+        title, shortDescription, date, location, 
+        imageUrl: imageUrl || "https://images.unsplash.com/photo-1540575467063-178a50c2df87",
+        status: "OPEN",
+      },
+    });
+  } catch (error) {
+    return { message: "Erro interno ao salvar no banco de dados." };
+  }
+
   revalidatePath("/");
-
-  // 5. Redirecionamos o usuário de volta para a Home
   redirect("/");
 }

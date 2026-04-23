@@ -1,4 +1,4 @@
-// src/components/layout/header/index.tsx
+
 "use client";
 
 import { useState } from "react";
