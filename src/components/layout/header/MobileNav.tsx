@@ -28,13 +28,13 @@ export function MobileNav({ onClose }: MobileNavProps) {
         const isOpen = openMenu === item.label;
 
         return (
-          <div key={item.label} className="border-b border-purple-800/50 last:border-0">
+          <div key={item.label} className="border-b border-cyan-300/20 last:border-0">
             {hasSubItems ? (
               <div>
                 <button
                   onClick={() => toggleMenu(item.label)}
                   className={`flex items-center justify-between w-full py-4 text-left uppercase text-[15px] font-semibold tracking-wider transition-colors ${
-                    isActive ? "text-yellow-400" : "text-white"
+                    isActive ? "text-cyan-300" : "text-slate-100"
                   }`}
                 >
                   {item.label}
@@ -42,17 +42,30 @@ export function MobileNav({ onClose }: MobileNavProps) {
                 </button>
                 
                 {isOpen && (
-                  <div className="flex flex-col gap-2 pl-4 pb-4 animate-in fade-in slide-in-from-top-2">
-                    {item.subItems!.map((sub) => (
+                  <div className="flex flex-col gap-1 pl-3 pb-4 animate-in fade-in slide-in-from-top-2 border-l border-cyan-300/40">
+                    {item.subItems!.map((sub, index) => {
+                      const isSubActive = pathname === sub.href;
+                      return (
                       <Link
                         key={sub.label}
                         href={sub.href}
                         onClick={onClose}
-                        className="py-2 text-[14px] text-white/70 hover:text-yellow-400 transition-colors"
+                        className={`flex items-center justify-between py-2.5 px-2 text-[14px] border border-transparent transition-colors ${
+                          isSubActive
+                            ? "bg-cyan-300/20 border-cyan-300/35 text-cyan-100"
+                            : "text-slate-200 hover:text-cyan-200 hover:bg-cyan-300/12 hover:border-cyan-300/25"
+                        }`}
                       >
-                        {sub.label}
+                        <span className="flex items-center gap-2">
+                          <span className="text-[10px] text-cyan-300/80">
+                            {String(index + 1).padStart(2, "0")}
+                          </span>
+                          <span>{sub.label}</span>
+                        </span>
+                        <span className="text-cyan-300/90">+</span>
                       </Link>
-                    ))}
+                    );
+                    })}
                   </div>
                 )}
               </div>
@@ -61,7 +74,7 @@ export function MobileNav({ onClose }: MobileNavProps) {
                 href={item.href}
                 onClick={onClose}
                 className={`block w-full py-4 uppercase text-[15px] font-semibold tracking-wider transition-colors ${
-                  isActive ? "text-yellow-400" : "text-white"
+                  isActive ? "text-cyan-300" : "text-slate-100"
                 }`}
               >
                 {item.label}

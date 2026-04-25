@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../../../components/ui/Button";
-import { deleteEvent, updateEvent } from "../../../actions/event.actions";
+import { deleteEvent } from "../../../actions/event.actions";
 
 // 1. A página recebe os "params" da URL (ex: params.id)
 export default async function EventDetailsPage({
@@ -30,36 +30,39 @@ export default async function EventDetailsPage({
 
   // 4. Dicionário de Cores para o Status (Lembra dele?)
   const statusColors = {
-    OPEN: "bg-green-100 text-green-800",
-    CLOSED: "bg-gray-100 text-gray-800",
-    SOLD_OUT: "bg-red-100 text-red-800",
+    OPEN:
+      "status-dot status-dot-open bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.75)]",
+    CLOSED:
+      "status-dot status-dot-closed bg-slate-300 shadow-[0_0_10px_rgba(203,213,225,0.65)]",
+    SOLD_OUT:
+      "status-dot status-dot-sold bg-rose-400 shadow-[0_0_12px_rgba(251,113,133,0.75)]",
   };
 
   const statusLabels = {
-    OPEN: "Inscrições Abertas",
+    OPEN: "Aberto",
     CLOSED: "Encerrado",
-    SOLD_OUT: "Esgotado",
+    SOLD_OUT: "Lotado",
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 pt-24 pb-12">
+    <main className="min-h-screen pt-28 pb-12">
       <div className="max-w-4xl mx-auto px-4">
         {/* Botão de Voltar */}
         <Link
           href="/"
-          className="text-purple-600 hover:text-purple-800 flex items-center gap-2 mb-6 font-medium transition-colors"
+          className="inline-flex items-center gap-2 mb-6 font-medium text-cyan-200 hover:text-cyan-100 transition-colors"
         >
           &larr; Voltar para os eventos
         </Link>
 
-        <article className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+        <article className="glass-panel shadow-2xl overflow-hidden border border-white/20">
           {/* Imagem de Capa Gigante */}
-          <div className="relative w-full h-64 md:h-96 bg-gray-200">
+          <div className="relative w-full h-64 md:h-96 bg-slate-900">
             <Image
               src={event.imageUrl}
               alt={event.title}
               fill
-              className="object-cover"
+              className="object-cover saturate-110"
               priority // Essa imagem é importante, carrega rápido!
             />
           </div>
@@ -67,12 +70,14 @@ export default async function EventDetailsPage({
           {/* Conteúdo do Evento */}
           <div className="p-8">
             <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-              <span
-                className={`px-4 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider ${statusColors[event.status as keyof typeof statusColors]}`}
-              >
-                {statusLabels[event.status as keyof typeof statusLabels]}
+              <span className="inline-flex items-center">
+                <span
+                  className={`h-3 w-3 ${statusColors[event.status as keyof typeof statusColors]}`}
+                  aria-label={statusLabels[event.status as keyof typeof statusLabels]}
+                  title={statusLabels[event.status as keyof typeof statusLabels]}
+                />
               </span>
-              <span className="text-gray-500 font-medium">
+              <span className="text-slate-300 font-medium">
                 {event.date.toLocaleDateString("pt-BR", {
                   weekday: "long",
                   day: "2-digit",
@@ -84,13 +89,13 @@ export default async function EventDetailsPage({
               </span>
             </div>
 
-            <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-3xl md:text-5xl font-extrabold text-slate-100 mb-6 leading-tight">
               {event.title}
             </h1>
 
-            <div className="flex items-center gap-2 text-gray-600 mb-8 font-medium">
+            <div className="flex items-center gap-2 text-slate-300 mb-8 font-medium">
               <svg
-                className="w-6 h-6 text-purple-600"
+                className="w-6 h-6 text-cyan-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -111,12 +116,12 @@ export default async function EventDetailsPage({
               <span className="text-lg">{event.location}</span>
             </div>
 
-            <div className="prose prose-lg text-gray-700 max-w-none mb-12">
+            <div className="prose prose-lg prose-invert text-slate-200 max-w-none mb-12">
               <p>{event.shortDescription}</p>
             </div>
 
             {/* Ações do Evento */}
-            <div className="border-t border-gray-100 pt-8 flex flex-col md:flex-row items-center gap-4">
+            <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center gap-4">
               {/* Botão de Inscrição (Mantido) */}
               <Button
                 variant="primary"
@@ -135,7 +140,7 @@ export default async function EventDetailsPage({
                 <Button
                   type="submit"
                   variant="outline"
-                  className="w-full md:w-auto px-6 py-4 text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300"
+                  className="w-full md:w-auto px-6 py-4 text-rose-200 border-rose-300/40 hover:bg-rose-500/15 hover:border-rose-300/60"
                 >
                   Excluir Evento
                 </Button>
@@ -143,7 +148,7 @@ export default async function EventDetailsPage({
 
               <Link
                 href={`/eventos/${event.id}/editar`}
-                className="w-full md:w-auto inline-flex items-center justify-center font-semibold uppercase tracking-wider transition-all duration-200 px-6 py-4 border-2 border-yellow-200 text-yellow-600 hover:bg-yellow-50 hover:border-yellow-300"
+                className="w-full md:w-auto inline-flex items-center justify-center font-semibold uppercase tracking-wider transition-all duration-300 px-6 py-4 border border-cyan-200/30 bg-cyan-300/10 text-cyan-100 hover:bg-cyan-300/20 hover:border-cyan-200/50"
               >
                 Editar Evento
               </Link>

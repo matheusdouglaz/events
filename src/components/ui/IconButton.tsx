@@ -24,8 +24,8 @@ export function Button({
   };
 
   const disabledStyles = (props.disabled || isLoading) 
-    ? "opacity-50 cursor-not-allowed" 
-    : "cursor-pointer";
+    ? "opacity-50" 
+    : "";
 
   return (
     <button 
@@ -33,7 +33,14 @@ export function Button({
       disabled={props.disabled || isLoading}
       {...props}
     >
-      {isLoading ? "Aguarde..." : children}
+      {isLoading ? (
+        <span className="inline-flex items-center gap-2">
+          <span className="h-3 w-3 border border-cyan-100/70 border-r-transparent animate-spin" />
+          Processando
+        </span>
+      ) : (
+        children
+      )}
     </button>
   );
 }
