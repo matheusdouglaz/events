@@ -1,0 +1,39 @@
+---
+description: Criar commit atomico em modo emergencia com no-verify
+alwaysApply: false
+---
+
+# Conventional Commit (Emergency)
+
+Use this mode only when hooks are failing unexpectedly and there is explicit approval to bypass verification.
+
+## Preconditions (mandatory)
+- The user explicitly asked to use emergency mode.
+- There is a clear reason for bypassing hooks.
+- A follow-up action is planned to restore hook health.
+
+## Instructions
+
+1. Follow the same atomic workflow as default mode:
+   - `git status`
+   - `git diff`
+   - stage only specific related files
+   - `git diff --staged`
+
+2. Generate a valid Conventional Commit message:
+   - `<type>[optional scope]: <description>`
+   - Optional body/footer as needed.
+
+3. Execute commit with bypass:
+   - `git commit --no-verify -m "<description>"`
+   - or multi-line variant with additional `-m` flags.
+
+4. Post-commit requirements:
+   - Show remaining changes.
+   - Report that hooks were bypassed.
+   - Recommend opening a task to fix failing hooks.
+
+## Guardrails
+- Do not use this mode as default workflow.
+- Never use bypass to hide lint, test, or security failures.
+- Never commit sensitive files or secrets.

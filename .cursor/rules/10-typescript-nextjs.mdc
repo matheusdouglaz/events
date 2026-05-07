@@ -1,0 +1,26 @@
+---
+description: TypeScript and Next.js quality guardrails
+globs:
+  - "src/**/*.ts"
+  - "src/**/*.tsx"
+  - "next.config.ts"
+  - "prisma/**/*.ts"
+alwaysApply: false
+---
+
+# TypeScript + Next.js standards
+
+## Code quality
+- Keep strict typing; avoid `any` unless documented and justified.
+- Prefer small pure helpers for complex logic.
+- Keep components focused and avoid hidden side effects.
+
+## Data and async safety
+- Handle async failures explicitly with user-safe fallbacks.
+- Validate external input at boundaries.
+- Avoid leaking sensitive data to client logs or errors.
+
+## Testing and verification
+- For bug fixes, add or update tests when feasible.
+- For behavior changes, include manual verification steps in PR.
+- Run lint/tests for touched scope before finalizing.

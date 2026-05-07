@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { NAV_ITEMS } from "./nav-data";
 
 export function DesktopNav() {
@@ -20,7 +20,7 @@ export function DesktopNav() {
               <Link
                 href={item.href}
                 className={`flex items-center gap-1 text-sm font-semibold uppercase tracking-wider transition-colors pb-1 ${
-                  isActive ? "text-yellow-400" : "text-white group-hover:text-yellow-400"
+                  isActive ? "text-cyan-300" : "text-slate-100 group-hover:text-cyan-300"
                 }`}
               >
                 {item.label}
@@ -29,24 +29,42 @@ export function DesktopNav() {
                 )}
 
                 <span
-                  className={`absolute bottom-2 left-1/2 -translate-x-1/2 h-[3px] bg-yellow-400 transition-all duration-300 ${
+                  className={`absolute bottom-2 left-1/2 -translate-x-1/2 h-[2px] bg-cyan-300 shadow-[0_0_12px_rgba(34,211,238,0.8)] transition-all duration-300 ${
                     isActive ? "w-[80%]" : "w-0 group-hover:w-[80%]"
                   }`}
                 />
               </Link>
 
               {item.subItems && (
-                <div className="absolute top-full left-0 mt-0 w-56 opacity-0 invisible translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 z-50">
-                  <div className="bg-purple-900 border border-purple-700 rounded-md shadow-xl py-2 flex flex-col">
-                    {item.subItems.map((sub) => (
+                <div className="absolute top-full left-0 mt-1 w-80 opacity-0 invisible translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 z-50">
+                  <div className="glass-panel border border-cyan-300/20 shadow-[0_0_24px_rgba(34,211,238,0.12)] p-2">
+                    <div className="px-3 py-2 border-b border-white/10 mb-1">
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-200/80">
+                        Navegue por categorias
+                      </p>
+                    </div>
+                    {item.subItems.map((sub, index) => {
+                      const isSubActive = pathname === sub.href;
+                      return (
                       <Link
                         key={sub.label}
                         href={sub.href}
-                        className="px-4 py-2 text-sm text-white hover:bg-yellow-400 hover:text-purple-900 transition-colors font-medium"
+                        className={`group/item flex items-center justify-between px-3 py-2 border border-transparent transition-colors ${
+                          isSubActive
+                            ? "bg-cyan-300/18 border-cyan-300/25 text-cyan-100"
+                            : "text-slate-200 hover:bg-cyan-300/10 hover:border-cyan-300/20 hover:text-cyan-100"
+                        }`}
                       >
-                        {sub.label}
+                        <span className="flex items-center gap-3">
+                          <span className="text-[10px] text-cyan-300/80">
+                            {String(index + 1).padStart(2, "0")}
+                          </span>
+                          <span className="text-sm font-medium">{sub.label}</span>
+                        </span>
+                        <ChevronRight size={14} className="text-cyan-300/80 transition-transform group-hover/item:translate-x-0.5" />
                       </Link>
-                    ))}
+                    );
+                    })}
                   </div>
                 </div>
               )}

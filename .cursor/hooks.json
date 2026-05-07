@@ -1,0 +1,24 @@
+{
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "matcher": "git reset --hard|git clean -fd|git push --force|git push --force-with-lease|git push -f|rm -rf",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node scripts/cursor-hooks/block-dangerous-commands.mjs"
+          }
+        ]
+      },
+      {
+        "matcher": "git commit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node scripts/cursor-hooks/warn-secrets-on-commit.mjs"
+          }
+        ]
+      }
+    ]
+  }
+}

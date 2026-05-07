@@ -1,0 +1,96 @@
+---
+description: Code review completo de branch ou PR com foco em risco real
+alwaysApply: false
+---
+
+# Code Review
+
+Perform a comprehensive code review of changes in the current branch or a specified GitHub PR.
+
+## Instructions
+
+You are performing a code review. Follow these steps carefully:
+
+1. **Determine review scope**
+   - If a GitHub PR URL is provided, inspect PR metadata and changed files.
+   - If no PR URL is provided, review current branch changes from git history and diff.
+
+2. **Gather context**
+   - Read the PR description (when available) to understand intended changes.
+   - If a task/issue URL is provided, fetch and analyze requirements.
+   - Inspect commit history to understand change evolution.
+   - Review branch diff against base branch.
+
+3. **Review all changed files**
+   - Examine each modified file and prioritize real risk.
+   - Analyze:
+     - Bugs and logic errors
+     - Security vulnerabilities and sensitive data exposure
+     - Performance regressions
+     - Test coverage and test quality
+     - Documentation completeness
+     - Consistency with codebase patterns
+     - Edge cases and error handling
+
+4. **Cross-reference requirements**
+   - Verify changes align with PR description.
+   - If task/issue requirements exist, validate coverage and completeness.
+   - Flag any missing, partial, or ambiguous requirement.
+
+5. **Report findings with evidence**
+   - Organize by severity: Critical, High, Medium, Low.
+   - For each issue include:
+     - File path and line reference (e.g., `src/app.ts:42`)
+     - Clear problem description
+     - Why it matters (impact/risk)
+     - Suggested fix
+   - Highlight strong implementation choices.
+   - Provide overall recommendation.
+
+## Severity rubric
+
+- **Critical**: security/data integrity risk, crash, or guaranteed incorrect behavior in core flow.
+- **High**: likely production bug, major regression risk, or missing essential validation.
+- **Medium**: maintainability/robustness issue that should be improved soon.
+- **Low**: minor improvement, clarity, style, or non-blocking suggestion.
+
+## Output format
+
+```markdown
+# Code Review Summary
+
+## Overview
+[Brief summary of what was reviewed and overall assessment]
+
+## PR/Task Alignment
+- Meets requirements: [Yes/No/Partial]
+- [List missing or incomplete requirements]
+
+## Critical Issues
+[Must-fix before merge]
+
+## High Priority
+[Should-fix before merge when possible]
+
+## Medium Priority
+[Quality and robustness improvements]
+
+## Low Priority / Suggestions
+[Nice-to-have suggestions]
+
+## Positive Observations
+[What was done well]
+
+## Residual Risks / Test Gaps
+[Risks that remain even if no blocking issues were found]
+
+## Overall Recommendation
+[Approve / Request Changes / Needs Discussion]
+```
+
+## Important notes
+
+- Be thorough, objective, and constructive.
+- Prefer actionable comments over generic opinions.
+- If there are no findings, state it explicitly and list residual risks/test gaps.
+- Balance issues with positive observations.

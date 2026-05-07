@@ -20,11 +20,11 @@ export function LanguageSwitcher() {
   return (
     <div 
       ref={dropdownRef} 
-      className="relative"
+      className="relative w-16"
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 text-white hover:text-yellow-400 transition-colors px-2 py-1 uppercase text-sm font-medium"
+        className="w-full flex items-center justify-between gap-1 text-slate-100 hover:text-cyan-300 transition-colors px-3 py-1.5 uppercase text-sm font-medium border border-white/15 bg-white/5"
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
@@ -36,7 +36,7 @@ export function LanguageSwitcher() {
       </button>
 
       {isOpen && (
-        <div className="absolute top-full right-0 mt-2 w-20 bg-purple-900 border border-purple-700 rounded-md shadow-xl overflow-hidden z-50">
+        <div className="absolute top-full right-0 mt-2 w-full glass-panel border border-white/20 shadow-xl overflow-hidden z-50">
           <ul role="listbox">
             {LANGUAGES.map((lang) => (
               <li key={lang.code}>
@@ -47,8 +47,8 @@ export function LanguageSwitcher() {
                   }}
                   className={`w-full text-center px-4 py-3 text-sm transition-colors ${
                     currentLang === lang.code
-                      ? "bg-yellow-400 text-purple-900 font-bold"
-                      : "text-white hover:bg-purple-800"
+                      ? "bg-cyan-300/25 text-cyan-100 font-bold"
+                      : "text-slate-100 hover:bg-cyan-300/10"
                   }`}
                 >
                   {lang.label}

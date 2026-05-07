@@ -10,3 +10,12 @@ export interface DevEvent {
   status: EventStatus;
   registrationUrl?: string;
 }
+
+export type EventFormErrors = Partial<
+  Record<"title" | "shortDescription" | "date" | "location" | "imageUrl", string[]>
+>;
+
+export type EventFormState = {
+  errors?: EventFormErrors;
+  message?: string;
+};
