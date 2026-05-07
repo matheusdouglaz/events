@@ -1,0 +1,62 @@
+---
+description: Criar commit atomico com Conventional Commits (modo padrao seguro)
+alwaysApply: false
+---
+
+# Conventional Commit (Default)
+
+Create a conventional commit message and execute an atomic commit with safe defaults.
+
+## Allowed actions
+- Inspect git state and diffs.
+- Stage only related files explicitly.
+- Create one focused commit at a time.
+
+## Instructions
+
+1. **Inspect current changes**
+   - Run `git status` to list changed files.
+   - Run `git diff` to inspect unstaged changes.
+   - Run `git diff --staged` to inspect staged changes.
+
+2. **Enforce atomic commits**
+   - Identify one logical unit of work.
+   - Stage ONLY related files using explicit paths.
+   - Do NOT use `git add .` or `git add -A`.
+   - If unrelated changes exist, present grouped options and ask what to commit first.
+
+3. **Conventional Commit format (mandatory)**
+   - `<type>[optional scope]: <description>`
+   - Optional body and footer when needed.
+
+4. **Type selection**
+   - `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`.
+   - Choose based on actual staged diff, not assumption.
+
+5. **Scope and description quality**
+   - Scope should be lowercase and specific when useful.
+   - Description must be imperative, present tense, and no final period.
+   - Keep concise (target under 50 chars, max 72 chars).
+
+6. **Body and footer**
+   - Body explains WHAT and WHY, not HOW.
+   - Wrap lines near 72 chars.
+   - Use footers for issue refs and breaking changes.
+
+7. **Breaking changes**
+   - Indicate with `BREAKING CHANGE:` footer and explain impact.
+   - `!` after type/scope can be used in addition when appropriate.
+
+8. **Security and repository hygiene**
+   - Never commit secrets, credentials, tokens, or private keys.
+   - If sensitive files are staged (such as `.env` or key material), stop and request correction.
+
+9. **Commit execution (default safe mode)**
+   - Commit WITHOUT `--no-verify` by default.
+   - Use multi-line message when body/footer are needed.
+   - After commit, show remaining changes and ask whether to proceed with another atomic commit.
+
+## Output behavior
+- First, present the proposed commit message.
+- Then execute the commit command.
+- Finally, summarize the commit result and remaining git status.

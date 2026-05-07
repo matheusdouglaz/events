@@ -1,0 +1,32 @@
+---
+description: Core workflow for commits, PRs and reviews
+alwaysApply: true
+---
+
+# AI workflow baseline
+
+## Goal
+Keep all repository changes safe, reviewable, and easy to maintain.
+
+## Commit policy
+- Use Conventional Commits: `feat`, `fix`, `refactor`, `perf`, `test`, `docs`, `chore`, `ci`, `revert`.
+- Keep commits atomic: one concern per commit.
+- Explain "why" in the commit body when the diff is not obvious.
+- Never commit secrets (`.env`, tokens, private keys, credentials).
+
+## Pull Request policy
+- Open small, focused PRs.
+- Add a concise summary with context and risk.
+- Include a test plan with reproducible steps.
+- Mention migrations, env changes, or breaking behavior explicitly.
+
+## Code review policy
+- Prioritize correctness, security, data integrity, and regressions.
+- Flag missing tests for business-critical logic.
+- Prefer actionable feedback with suggested fixes.
+- If no issue is found, still state residual risk and test gaps.
+
+## Safety policy
+- Avoid destructive git operations unless explicitly requested.
+- Confirm before any command that can delete or overwrite data.
+- If unexpected changes appear, stop and ask before proceeding.
